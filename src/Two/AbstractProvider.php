@@ -2,7 +2,6 @@
 
 namespace Laravel\Socialite\Two;
 
-use Log;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use GuzzleHttp\ClientInterface;
@@ -136,8 +135,6 @@ abstract class AbstractProvider implements ProviderContract
             
             $this->request->getSession()->set('state', $state);
         }
-        Log::debug('State sent: '.$state);
-        Log::debug('State immediate session test: '.$this->request->getSession()->pull('state'));
 
         return new RedirectResponse($this->getAuthUrl($state));
     }
@@ -228,8 +225,6 @@ abstract class AbstractProvider implements ProviderContract
         }
 
         $state = $this->request->getSession()->pull('state');
-        Log::debug('State received ($this->request->getSession()->pull("state")): '.$state);
-        Log::debug('State received ($this->request->input("state")): '.$this->request->input('state'));
 
         return ! (strlen($state) > 0 && $this->request->input('state') === $state);
     }
